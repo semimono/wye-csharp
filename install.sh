@@ -3,6 +3,7 @@
 set -e
 
 readonly root=`dirname "$0"`
+cd $root
 
 nuget restore
 msbuild -p:Configuration=Release
