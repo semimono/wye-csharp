@@ -1,12 +1,13 @@
-# wye - C#
+
+<p align="center">
+  <img width="260" height="310" src="./wye.svg">
+</p>
+
+## wye - C#
 
 This is an interpretter for the wye language, written in C#.
 
-<!-- ![plot](./wye.svg "wye") -->
-![Alt text](./wye.svg)
-<img src="./wye.svg">
-
-![Example](./wye.svg)
+# wye
 
 Why is there yet another programming language? For every task that is out there, there is a language that handles it well. For every language out there, there are many tasks that it handles poorly. For every task out there, wye aims to handle it well. Wye is the penultimate letter and aims to be the penultimate language. Too justify a new language, it must be foolishly ambitious.
 
