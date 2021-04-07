@@ -17,9 +17,12 @@ namespace Wye {
       using(StreamReader source = File.OpenText(sourceFile)) {
         Lexer lexer = new Lexer();
         watch.Start();
-        lexer.lex(new LexBuffer(source));
+        var tokens = lexer.lexAll(new LexBuffer(source));
+        long managedMemoryUsage = GC.GetTotalMemory(true);
         watch.Stop();
-        Console.WriteLine("lexing took: " + (watch.ElapsedTicks * nanosecPerTick) + " ns");
+        Console.WriteLine($"Tokens: [{ String.Join(", ", tokens) }]");
+        Console.WriteLine("lexing took: " + (watch.ElapsedTicks * nanosecPerTick) /1000000d + " ms");
+        Console.WriteLine("heap was: " + (managedMemoryUsage) + " B");
       }
     }
   }
