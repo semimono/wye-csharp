@@ -17,6 +17,7 @@ namespace WyeCore {
     private int length = 0;
     private bool readerEmpty = false;
     private System.Text.StringBuilder builder;
+    private CodeLocation location;
 
     public LexBuffer(TextReader source, int bufferSize=1024) {
       this.source = source;
@@ -41,6 +42,7 @@ namespace WyeCore {
           readChunk();
         if (!char.IsWhiteSpace(buffer[position]))
           break;
+        location.advanceBy(buffer[position]);
         ++position;
       }
     }
@@ -52,6 +54,7 @@ namespace WyeCore {
     /// <returns>true if 'value' is immediately next in the buffer</returns>
     public bool tryRead(string value) {
       if (isNext(value)) {
+        location.advanceBy(value);
         position += value.Length;
         return true;
       }
@@ -78,6 +81,7 @@ namespace WyeCore {
             return builder.ToString();
           }
         }
+        location.advanceBy(buffer[position]);
         ++position;
         if (bufferEmpty()) {
           if (position > lastReadPos)
@@ -98,6 +102,7 @@ namespace WyeCore {
             builder.Append(buffer, lastReadPos, position - lastReadPos);
           return builder.ToString();
         }
+        location.advanceBy(buffer[position]);
         ++position;
         if (bufferEmpty()) {
           if (position > lastReadPos)
@@ -116,6 +121,7 @@ namespace WyeCore {
       builder.Clear();
       int lastReadPos = position;
       while (!atEnd() && !condition(buffer[position])) {
+        location.advanceBy(buffer[position]);
         ++position;
         if (bufferEmpty()) {
           if (position > lastReadPos)
@@ -131,6 +137,7 @@ namespace WyeCore {
 
     public char readChar() {
       guaranteeData();
+      location.advanceBy(buffer[position]);
       return buffer[position++];
     }
 
@@ -156,6 +163,10 @@ namespace WyeCore {
 
       char next = buffer[position];
       return next >= min && next <= max;
+    }
+
+    public CodeLocation GetLocation() {
+      return location;
     }
 
     private bool isNext(string value) {

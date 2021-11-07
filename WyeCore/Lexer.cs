@@ -18,22 +18,24 @@ namespace WyeCore {
         if (source.atEnd())
           return null;
 
+        CodeLocation startLocation = source.GetLocation();
+
         if (lexLineComment(source) || lexBlockComment(source))
           continue;
 
         string stringLiteral = lexStringLiteral(source);
         if (stringLiteral != null)
-          return new Token(TokenType.STRING, stringLiteral);
+          return new Token(TokenType.STRING, stringLiteral, startLocation, source.GetLocation());
 
         string name = lexName(source);
         if (name != null)
-          return new Token(TokenType.NAME, name);
+          return new Token(TokenType.NAME, name, startLocation, source.GetLocation());
 
         string number = lexNumber(source);
         if (number != null)
-          return new Token(TokenType.NUMBER, number);
+          return new Token(TokenType.NUMBER, number, startLocation, source.GetLocation());
 
-        return new Token(TokenType.SYMBOL, source.readChar().ToString());
+        return new Token(source.readChar(), startLocation, source.GetLocation());
       }
       return null;
     }
@@ -95,7 +97,8 @@ namespace WyeCore {
 
       return source.readTill(c =>
         !isDigit(c) &&
-        !isLetter(c));
+        !isLetter(c) &&
+        c != '.');
     }
 
     private static string lexName(LexBuffer source) {
@@ -135,14 +138,29 @@ namespace WyeCore {
     public struct Token {
       public TokenType type;
       public string value;
+      public char symbol;
+      CodeLocation startLocation, endLocation;
 
-      public Token(TokenType type, string value) {
+      public Token(TokenType type, string value, CodeLocation start, CodeLocation end) {
         this.type = type;
         this.value = value;
+        this.startLocation = start;
+        this.endLocation = end;
+        this.symbol = char.MinValue;
+      }
+
+      public Token(char symbol, CodeLocation start, CodeLocation end) {
+        this.type = TokenType.SYMBOL;
+        this.value = null;
+        this.symbol = symbol;
+        this.startLocation = start;
+        this.endLocation = end;
       }
 
       public override string ToString() {
-        return $"{type}: \"{value}\"";
+        return type == TokenType.SYMBOL ? 
+          $"({type}: \"{symbol}\", {startLocation}-{endLocation})" :
+          $"({type}: \"{value}\", {startLocation}-{endLocation})";
       }
     }
   }
