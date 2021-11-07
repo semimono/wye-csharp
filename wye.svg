@@ -19,5 +19,11 @@
        style="display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 27.82,264.17 c -6.007533,0.87964 -24.5500084,15.60386 -26.1609582,22.00261 l 2.5559164,8.35873 C 9.1892725,279.96858 22.570894,267.36817 27.82,264.17 Z"
        id="path-right" />
+    <circle
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:11.34412289;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+       id="path-head"
+       cx="-0.000248"
+       cy="268.98975"
+       r="6" />
   </g>
 </svg>
