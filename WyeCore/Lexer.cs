@@ -92,7 +92,10 @@ namespace WyeCore {
 
     private static string lexNumber(LexBuffer source) {
       char first = source.nextChar();
-      if (!isDigit(first))
+      if (
+        !isDigit(first) &&
+        first != '.'
+      )
         return null;
 
       return source.readTill(c =>
